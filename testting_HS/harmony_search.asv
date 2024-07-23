@@ -1,0 +1,48 @@
+
+% Harmony Search Algorithm
+function [bestSolution, bestFitness] = harmony_search(objectiveFunction, numVars, lb, ub, maxIter, harmonyMemorySize, hmCR, hmPAR, bw)
+    % Initialize Harmony Memory
+    harmonyMemory = repmat(lb, 1, harmonyMemorySize) + repmat((ub - lb), 1, harmonyMemorySize) .* rand(numVars, harmonyMemorySize);
+    harmonyFitness = arrayfun(objectiveFunction, harmonyMemory);
+
+    % Initialize Best Solution
+    [bestFitness, bestIndex] = min(harmonyFitness);
+    bestSolution = harmonyMemory(:, bestIndex);
+
+    % Main Loop of Harmony Search
+    for iter = 1:maxIter
+        % Generate New Harmony
+        newHarmony = zeros(numVars, 1);
+        for i = 1:numVars
+            if rand < hmCR
+                idx = randi(harmonyMemorySize);
+                newHarmony(i) = harmonyMemory(i, idx);
+                if rand < hmPAR
+                    newHarmony(i) = newHarmony(i) + bw * (2 * rand - 1);
+                end
+            else
+                newHarmony(i) = lb(i) + (ub(i) - lb(i)) * rand;
+            end
+        end
+        
+        % Bound Constraints
+        newHarmony = max(newHarmony, lb);
+        newHarmony = min(newHarmony, ub);
+        
+        % Calculate Fitness of New Harmony
+        newFitness = objectiveFunction(newHarmony);
+        
+        % Update Harmony Memory
+        [worstFitness, worstIndex] = max(harmonyFitness);
+        if newFitness < worstFitness
+            harmonyMemory(:, worstIndex) = newHarmony;
+            harmonyFitness(worstIndex) = newFitness;
+        end
+        
+        % Update Best Solution
+        if newFitness < bestFitness
+            bestFitness = newFitness;
+            bestSolution = newHarmony;
+        end
+    end
+end

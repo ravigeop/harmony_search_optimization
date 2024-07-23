@@ -1,0 +1,140 @@
+% Define the range for plotting
+x1 = linspace(-5, 5, 100);
+x2 = linspace(-5, 5, 100);
+[X1, X2] = meshgrid(x1, x2);
+
+% Number of decision variables
+n = 2;
+
+% Ackley's Function
+Z_ackley = -20 * exp(-0.2 * sqrt((X1.^2 + X2.^2)/n)) - exp((cos(2*pi*X1) + cos(2*pi*X2))/n) + 20 + exp(1);
+
+% Griewank's Function
+Z_griewank = (X1.^2 + X2.^2) / 4000 - cos(X1) .* cos(X2/sqrt(2)) + 1;
+
+
+% Schwefel's Function
+Z_schwefel = 418.9829 * n - sum(X1 .* sin(sqrt(abs(X1))), 3) - sum(X2 .* sin(sqrt(abs(X2))), 3);
+
+% Rastrigin's Function
+Z_rastrigin = 20 + (X1.^2 - 10 * cos(2 * pi * X1)) + (X2.^2 - 10 * cos(2 * pi * X2));
+
+% Styblinski-Tang Function
+Z_styblinski_tang = sum(X1.^4 - 16 * X1.^2 + 5 * X1) + sum(X2.^4 - 16 * X2.^2 + 5 * X2);
+
+% Rosenbrock's Function
+Z_rosenbrock = 100 * (X2 - X1.^2).^2 + (1 - X1).^2;
+
+% Sphere Function
+Z_sphere = X1.^2 + X2.^2;
+
+% Plotting
+figure;
+
+% Ackley's Function
+subplot(3, 3, 1);
+surf(X1, X2, Z_ackley);
+title('Ackley Function');
+xlabel('x1');
+ylabel('x2');
+zlabel('f(x1, x2)');
+colormap(winter);   % Choose a colormap (e.g., winter)
+shading interp;     % Interpolate colors for smooth shading
+lighting gouraud;   % Enable gouraud lighting for better visibility
+colorbar;           % Add color bar for reference
+
+% Griewank's Function
+subplot(3, 3, 2);
+surf(X1, X2, Z_griewank);
+title('Griewank Function');
+xlabel('x1');
+ylabel('x2');
+zlabel('f(x1, x2)');
+colormap(cool);     % Choose another colormap (e.g., cool)
+shading interp;     % Interpolate colors for smooth shading
+lighting gouraud;   % Enable gouraud lighting for better visibility
+colorbar;           % Add color bar for reference
+
+% Weierstrass Function
+subplot(3, 3, 3);
+surf(X1, X2, Z_weierstrass);
+title('Weierstrass Function');
+xlabel('x1');
+ylabel('x2');
+zlabel('f(x1, x2)');
+colormap(hot);      % Choose another colormap (e.g., hot)
+shading interp;     % Interpolate colors for smooth shading
+lighting gouraud;   % Enable gouraud lighting for better visibility
+colorbar;           % Add color bar for reference
+
+% Schwefel's Function
+subplot(3, 3, 4);
+surf(X1, X2, Z_schwefel);
+title('Schwefel Function');
+xlabel('x1');
+ylabel('x2');
+zlabel('f(x1, x2)');
+colormap(summer);   % Choose another colormap (e.g., summer)
+shading interp;     % Interpolate colors for smooth shading
+lighting gouraud;   % Enable gouraud lighting for better visibility
+colorbar;           % Add color bar for reference
+
+% Rastrigin's Function
+subplot(3, 3, 5);
+surf(X1, X2, Z_rastrigin);
+title('Rastrigin Function');
+xlabel('x1');
+ylabel('x2');
+zlabel('f(x1, x2)');
+colormap(jet);      % Choose another colormap (e.g., jet)
+shading interp;     % Interpolate colors for smooth shading
+lighting gouraud;   % Enable gouraud lighting for better visibility
+colorbar;           % Add color bar for reference
+
+% Styblinski-Tang Function
+subplot(3, 3, 6);
+surf(X1, X2, Z_styblinski_tang);
+title('Styblinski-Tang Function');
+xlabel('x1');
+ylabel('x2');
+zlabel('f(x1, x2)');
+colormap(copper);   % Choose another colormap (e.g., copper)
+shading interp;     % Interpolate colors for smooth shading
+lighting gouraud;   % Enable gouraud lighting for better visibility
+colorbar;           % Add color bar for reference
+
+% Rosenbrock's Function
+subplot(3, 3, 7);
+surf(X1, X2, Z_rosenbrock);
+title('Rosenbrock Function');
+xlabel('x1');
+ylabel('x2');
+zlabel('f(x1, x2)');
+colormap(pink);     % Choose another colormap (e.g., pink)
+shading interp;     % Interpolate colors for smooth shading
+lighting gouraud;   % Enable gouraud lighting for better visibility
+colorbar;           % Add color bar for reference
+
+% Sphere Function
+subplot(3, 3, 8);
+surf(X1, X2, Z_sphere);
+title('Sphere Function');
+xlabel('x1');
+ylabel('x2');
+zlabel('f(x1, x2)');
+colormap(parula);   % Choose another colormap (e.g., parula)
+shading interp;     % Interpolate colors for smooth shading
+lighting gouraud;   % Enable gouraud lighting for better visibility
+colorbar;           % Add color bar for reference
+
+% Adjust figure properties
+sgtitle('Benchmark Functions in 3D');  % Overall title for the figure
+
+% Improve layout
+set(gcf, 'Position', [100, 100, 1200, 800]);  % Resize figure window
+
+% Improve subplot spacing
+subplot tight;
+
+% Improve the viewing angle
+view(-30, 30);  % Adjust viewing angle for better visualization
